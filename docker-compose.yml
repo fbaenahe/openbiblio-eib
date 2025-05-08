@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  openbiblio-web:
+    build: .
+    container_name: openbiblio-web
+    ports:
+      - "8082:80"
+    volumes:
+      - ./openbiblio:/var/www/html
+    depends_on:
+      - openbiblio-db
+
+  openbiblio-db:
+    image: mysql:5.7
+    container_name: openbiblio-db
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: OpenBiblio
+      MYSQL_USER: obiblio_user
+      MYSQL_PASSWORD: obiblio_pass
+    ports:
+      - "3309:3306"
+    volumes:
+      - openbiblio_data:/var/lib/mysql
+
+volumes:
+  openbiblio_data:
